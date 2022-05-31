@@ -1,25 +1,23 @@
-import React from 'react';
+import React, { useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Dashboard from './dashboard';
+import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
 
 function App() {
+  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+
+    <Dashboard />
+
+    </MantineProvider>
+    </ColorSchemeProvider>
   );
 }
 
