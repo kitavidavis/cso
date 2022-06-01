@@ -15,13 +15,18 @@ import {
   ActionIcon,
   Checkbox,
   CheckboxProps,
-  UnstyledButton
+  UnstyledButton,
+  SimpleGrid,
+  Paper,
+  RingProgress,
+  Center
 } from '@mantine/core';
 import { MapContainer, TileLayer, useMap, Circle, LayersControl, Marker, Popup, GeoJSON } from 'react-leaflet';
-import { Check, Plus } from 'tabler-icons-react';
+import { ArrowUpRight, Check, Plus } from 'tabler-icons-react';
 import { SwitchToggle } from './ToggleTheme';
 import pregnancy from './teen_pregnancy';
 import wellbeing from './child_wellbeing';
+import { StatsRing } from './statistics';
 import CSOs from './cso';
 import { CONTROL_SIZES } from '@mantine/core/lib/components/NumberInput/NumberInput.styles';
 
@@ -167,12 +172,18 @@ export default function Dashboard() {
   const [teen, setTean] = useState<boolean>(false);
   const [wellbeing2, setWellBeing] = useState<boolean>(false);
   const [cso, setCSO] = useState<boolean>(true);
-
+  const [circleArr, setCircleArr] = useState([]);
   // filters
   const [health, setHealth] = useState(false);
   const [education, setEducation] = useState(false);
   const [protection, setProtection] = useState(false);
   const [advocacy, setAdvocacy] = useState(false);
+
+  const [total, setTotal] = useState<number>(CSOs.features.length);
+  const [healtht, setHealthTotal] = useState<number>(0);
+  const [educationt, setEducationTotal] = useState<number>(0);
+  const [protectiont, setProtectionTotal] = useState<number>(0);
+  const [empowermentt, setEmpowermentTotal] = useState<number>(0);
 
   const { classes } = useStyles();
   const links =  [
@@ -214,14 +225,17 @@ export default function Dashboard() {
     switch(id){
       case 'cso':
         setCSO(!cso);
+        setOpened(false);
         break;
 
       case 'teen':
         setTean(!teen);
+        setOpened(false);
         break;
 
       case 'wellbeing':
         setWellBeing(!wellbeing2);
+        setOpened(false);
         break;
 
       default:
@@ -242,35 +256,6 @@ export default function Dashboard() {
     )
   }
 
-  const CSOasPoints = () => {
-    return (
-      <GeoJSON data={CSOs} style={{opacity: 0.3}} />
-    )
-  }
-
-  const HandleFilterH = () => {
-    return (
-      <GeoJSON data={CSOs} filter={(f) => {return f.properties.Health === 'Yes'}} />
-    )
-  }
-
-  const HandleFilterE = () => {
-    return (
-      <GeoJSON data={CSOs} filter={(f) => {return f.properties.Education === 'Yes'}} />
-    )
-  }
-
-  const HandleFilterP = () => {
-    return (
-      <GeoJSON data={CSOs} filter={(f) => {return f.properties.Protection === 'Yes'}} />
-    )
-  }
-
-  const HandleFilterEM = () => {
-    return (
-      <GeoJSON data={CSOs} filter={(f) => {return f.properties.Empowerment === 'Yes'}} />
-    )
-  }
 
   const handleCSOs = (id: string) => {
     switch(id){
@@ -280,6 +265,7 @@ export default function Dashboard() {
         setAdvocacy(false);
         setEducation(false);
         setHealth(false);
+        setOpened(false);
         break;
 
       case 'health':
@@ -288,6 +274,7 @@ export default function Dashboard() {
         setProtection(false);
         setAdvocacy(false);
         setEducation(false);
+        setOpened(false);
         break;
 
       case 'education':
@@ -296,6 +283,7 @@ export default function Dashboard() {
         setHealth(false);
         setProtection(false);
         setAdvocacy(false);
+        setOpened(false);
         break;
 
       case 'protection':
@@ -304,6 +292,7 @@ export default function Dashboard() {
         setCSO(false);
         setHealth(false);
         setAdvocacy(false);
+        setOpened(false);
         break;
 
       case 'advocacy':
@@ -312,6 +301,7 @@ export default function Dashboard() {
         setCSO(false);
         setHealth(false);
         setProtection(false);
+        setOpened(false);
         break;
 
       default:
@@ -348,7 +338,6 @@ export default function Dashboard() {
   //ADDING TEEN PREGNANCY
 	// get color depending on teen pregnancy rate value
 	function getColorP(p: Number) {
-    console.log(p);
 		return p > 30 ? '#ae017e' : //#d7301f
 				p > 20  ? '#f768a1' : //#fc8d59
 				p > 10   ? '#fbb4b9' : //#fdcc8a
@@ -388,6 +377,43 @@ return {
 };
 }
 
+React.useEffect(() => {
+  const simpleArithmetics = () => {
+    let sumH = 0;
+    let sumE = 0;
+    let sumP = 0;
+    let sumEM = 0;
+
+    for(let i=0; i<CSOs.features.length; i++){
+      let item = CSOs.features[i];
+
+      if(item.properties.Health !== null){
+        sumH++
+      }
+
+      if(item.properties.Education !== null){
+        sumE++
+      }
+
+      if(item.properties.Protection !== null){
+        sumP++
+      }
+
+      if(item.properties.Empowerment !== null){
+        sumEM++
+      }
+    }
+
+    setHealthTotal(sumH);
+    setEducationTotal(sumE);
+    setProtectionTotal(sumP);
+    setEmpowermentTotal(sumEM);
+  }
+
+  simpleArithmetics();
+}, [])
+
+
   const MapView = () => {
     return (
         <MapContainer style={{height: '100%'}} center={[-0.89, 36.819]} zoom={6} scrollWheelZoom={true}>
@@ -416,11 +442,196 @@ return {
   </LayersControl>
   {teen ? <TeenPregnancy /> : null}
   {wellbeing2 ? <WellBeing /> : null}
-  {cso ? <CSOasPoints /> : null}
-  {health ? <HandleFilterH /> : null}
-  {education ? <HandleFilterE /> : null}
-  {protection ? <HandleFilterP /> : null}
-  {advocacy ? <HandleFilterEM /> : null}
+  {cso ? CSOs.features.map((item: any) => {
+    if(item.properties.Latitude !== null){
+      return (
+        <Circle fillColor='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <Popup>
+            <table className='table'>
+              <tbody>
+                <tr>
+                <td><strong>Health</strong></td>
+                  <td>
+                    {item.properties.Health}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Education</strong></td>
+                  <td>
+                    {item.properties.Education}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Protection</strong></td>
+                  <td>
+                    {item.properties.Protection}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Empowerment</strong></td>
+                  <td>
+                    {item.properties.Empowerment}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Popup>
+        </Circle>
+      )
+    }
+  }) : null}
+  {health ? CSOs.features.map((item: any) => {
+    if(item.properties.Latitude !== null && item.properties.Health === 'Yes'){
+      return (
+        <Circle fillColor='blue' color='blue' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <Popup>
+            <table className='table'>
+              <tbody>
+                <tr>
+                <td><strong>Health</strong></td>
+                  <td>
+                    {item.properties.Health}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Education</strong></td>
+                  <td>
+                    {item.properties.Education}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Protection</strong></td>
+                  <td>
+                    {item.properties.Protection}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Empowerment</strong></td>
+                  <td>
+                    {item.properties.Empowerment}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Popup>
+        </Circle>
+      )
+    }
+  }) : null}
+  {education ? CSOs.features.map((item: any) => {
+    if(item.properties.Latitude !== null && item.properties.Education !== null){
+      return (
+        <Circle fillColor='green' color='green' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <Popup>
+            <table className='table'>
+              <tbody>
+                <tr>
+                <td><strong>Health</strong></td>
+                  <td>
+                    {item.properties.Health}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Education</strong></td>
+                  <td>
+                    {item.properties.Education}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Protection</strong></td>
+                  <td>
+                    {item.properties.Protection}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Empowerment</strong></td>
+                  <td>
+                    {item.properties.Empowerment}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Popup>
+        </Circle>
+      )
+    }
+  }) : null}
+  {protection ?  CSOs.features.map((item: any) => {
+    if(item.properties.Latitude !== null && item.properties.Protection !== null){
+      return (
+        <Circle fillColor='red' color='red' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <Popup>
+            <table className='table'>
+              <tbody>
+                <tr>
+                <td><strong>Health</strong></td>
+                  <td>
+                    {item.properties.Health}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Education</strong></td>
+                  <td>
+                    {item.properties.Education}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Protection</strong></td>
+                  <td>
+                    {item.properties.Protection}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Empowerment</strong></td>
+                  <td>
+                    {item.properties.Empowerment}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Popup>
+        </Circle>
+      )
+    }
+  }) : null}
+  {advocacy ?  CSOs.features.map((item: any) => {
+    if(item.properties.Latitude !== null && item.properties.Empowerment !== null){
+      return (
+        <Circle fillColor='indigo' color='indigo' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <Popup>
+            <table className='table'>
+              <tbody>
+                <tr>
+                <td><strong>Health</strong></td>
+                  <td>
+                    {item.properties.Health}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Education</strong></td>
+                  <td>
+                    {item.properties.Education}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Protection</strong></td>
+                  <td>
+                    {item.properties.Protection}
+                  </td>
+                  </tr>
+                  <tr>
+                  <td><strong>Empowerment</strong></td>
+                  <td>
+                    {item.properties.Empowerment}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </Popup>
+        </Circle>
+      )
+    }
+  }) : null}
 </MapContainer>
     )
   }
@@ -452,7 +663,106 @@ return {
       aside={
         <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
           <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
-            <Text>Statistics</Text>
+            <Text> Quick Statistics</Text>
+            <SimpleGrid cols={1} breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
+            <Paper withBorder radius="md" p="xs">
+        <Group>
+          <RingProgress
+            size={80}
+            roundCaps
+            thickness={8}
+            sections={[{ value: Math.floor((healtht / total) * 100), color: 'blue' }]}
+            label={
+              <Center>
+                <ArrowUpRight size={22} />
+              </Center>
+            }
+          />
+
+          <div>
+            <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+              Health
+            </Text>
+            <Text weight={700} size="xl">
+              {healtht}
+            </Text>
+          </div>
+        </Group>
+      </Paper>
+      <Paper withBorder radius="md" p="xs">
+        <Group>
+          <RingProgress
+            size={80}
+            roundCaps
+            thickness={8}
+            sections={[{ value: Math.floor((educationt / total) * 100), color: 'green' }]}
+            label={
+              <Center>
+                <ArrowUpRight size={22} />
+              </Center>
+            }
+          />
+
+          <div>
+            <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+              Education
+            </Text>
+            <Text weight={700} size="xl">
+              {educationt}
+            </Text>
+          </div>
+        </Group>
+      </Paper>
+      <Paper withBorder radius="md" p="xs">
+        <Group>
+          <RingProgress
+            size={80}
+            roundCaps
+            thickness={8}
+            sections={[{ value: Math.floor((protectiont / total) * 100), color: 'red' }]}
+            label={
+              <Center>
+                <ArrowUpRight size={22} />
+              </Center>
+            }
+          />
+
+          <div>
+            <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+              Protection
+            </Text>
+            <Text weight={700} size="xl">
+              {protectiont}
+            </Text>
+          </div>
+        </Group>
+      </Paper>
+
+      <Paper withBorder radius="md" p="xs">
+        <Group>
+          <RingProgress
+            size={80}
+            roundCaps
+            thickness={8}
+            sections={[{ value: Math.floor((empowermentt / total) * 100), color: 'indigo' }]}
+            label={
+              <Center>
+                <ArrowUpRight size={22} />
+              </Center>
+            }
+          />
+
+          <div>
+            <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+              Empowerment
+            </Text>
+            <Text weight={700} size="xl">
+              {empowermentt}
+            </Text>
+          </div>
+        </Group>
+      </Paper>
+            </SimpleGrid>
           </Aside>
         </MediaQuery>
       }
