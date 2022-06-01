@@ -19,10 +19,12 @@ import {
   SimpleGrid,
   Paper,
   RingProgress,
-  Center
+  Center,
+  TextInput,
+  Button
 } from '@mantine/core';
 import { MapContainer, TileLayer, useMap, Circle, LayersControl, Marker, Popup, GeoJSON } from 'react-leaflet';
-import { ArrowUpRight, Check, Plus } from 'tabler-icons-react';
+import { ArrowUpRight, Check, Filter, Plus } from 'tabler-icons-react';
 import { SwitchToggle } from './ToggleTheme';
 import pregnancy from './teen_pregnancy';
 import wellbeing from './child_wellbeing';
@@ -184,6 +186,9 @@ export default function Dashboard() {
   const [educationt, setEducationTotal] = useState<number>(0);
   const [protectiont, setProtectionTotal] = useState<number>(0);
   const [empowermentt, setEmpowermentTotal] = useState<number>(0);
+
+  // filter by country
+  const [county, setCounty] = useState<string>('');
 
   const { classes } = useStyles();
   const links =  [
@@ -444,232 +449,462 @@ React.useEffect(() => {
   {wellbeing2 ? <WellBeing /> : null}
   {cso ? CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null){
-      return (
-        <Circle key={item.properties.Latitude + 'all'+ item.properties.Longitude} fillColor='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
-          <Popup>
-          <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
-            <table className='table'>
-              <tbody>
-                <tr>
-                <td><strong>Name</strong></td>
-                  <td>
-                    {item.properties.NameOfOrganization}
-                  </td>
+      if(county !== ' '){
+        if((item.properties.county === county) || item.properties.county.includes(county)){
+          return (
+            <Circle key={item.properties.Latitude + 'all'+ item.properties.Longitude} fillColor='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+              <Popup>
+              <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
+                <table className='table'>
+                  <tbody>
+                    <tr>
+                    <td><strong>Name</strong></td>
+                      <td>
+                        {item.properties.NameOfOrganization}
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Contact Person</strong></td>
+                      <td>
+                        {item.properties.contact}
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Phone</strong></td>
+                      <td>
+                        <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Email</strong></td>
+                      <td>
+                        <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Website</strong>
+                      </td>
+                      <td>
+                        <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>County</strong></td>
+                      <td>{item.properties.county}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Town/Constituency</strong></td>
+                      <td>{item.properties.Township}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+              </Popup>
+            </Circle>
+          )
+        }
+      } else {
+        return (
+          <Circle key={item.properties.Latitude + 'all'+ item.properties.Longitude} fillColor='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <Popup>
+            <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
+              <table className='table'>
+                <tbody>
+                  <tr>
+                  <td><strong>Name</strong></td>
+                    <td>
+                      {item.properties.NameOfOrganization}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Contact Person</strong></td>
+                    <td>
+                      {item.properties.contact}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Phone</strong></td>
+                    <td>
+                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Email</strong></td>
+                    <td>
+                      <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
+                    </td>
                   </tr>
                   <tr>
-                  <td><strong>Contact Person</strong></td>
-                  <td>
-                    {item.properties.contact}
-                  </td>
+                    <td>
+                      <strong>Website</strong>
+                    </td>
+                    <td>
+                      <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                    </td>
                   </tr>
                   <tr>
-                  <td><strong>Phone</strong></td>
-                  <td>
-                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
-                  </td>
+                    <td><strong>County</strong></td>
+                    <td>{item.properties.county}</td>
                   </tr>
                   <tr>
-                  <td><strong>Email</strong></td>
-                  <td>
-                    <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong>Website</strong>
-                  </td>
-                  <td>
-                    <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>County</strong></td>
-                  <td>{item.properties.county}</td>
-                </tr>
-                <tr>
-                  <td><strong>Town/Constituency</strong></td>
-                  <td>{item.properties.Township}</td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-          </Popup>
-        </Circle>
-      )
+                    <td><strong>Town/Constituency</strong></td>
+                    <td>{item.properties.Township}</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </Popup>
+          </Circle>
+        )
+      }
     }
   }) : null}
   {health ? CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null && item.properties.Health === 'Yes'){
-      return (
-        <Circle key={item.properties.Latitude + 'health' + item.properties.Longitude} fillColor='blue' color='blue' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
-          <Popup>
-          <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
-            <table className='table'>
-              <tbody>
-                <tr>
-                <td><strong>Name</strong></td>
-                  <td>
-                    {item.properties.NameOfOrganization}
-                  </td>
+      if(county !== ' '){
+        if((item.properties.county === county) || item.properties.county.includes(county)){
+          return (
+            <Circle key={item.properties.Latitude + 'health' + item.properties.Longitude} fillColor='blue' color='blue' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+              <Popup>
+              <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
+                <table className='table'>
+                  <tbody>
+                    <tr>
+                    <td><strong>Name</strong></td>
+                      <td>
+                        {item.properties.NameOfOrganization}
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Contact Person</strong></td>
+                      <td>
+                        {item.properties.contact}
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Phone</strong></td>
+                      <td>
+                        <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Email</strong></td>
+                      <td>
+                        <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Website</strong>
+                      </td>
+                      <td>
+                        <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>County</strong></td>
+                      <td>{item.properties.county}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Town/Constituency</strong></td>
+                      <td>{item.properties.Township}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+              </Popup>
+            </Circle>
+          )
+        }
+      } else {
+        return (
+          <Circle key={item.properties.Latitude + 'health' + item.properties.Longitude} fillColor='blue' color='blue' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <Popup>
+            <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
+              <table className='table'>
+                <tbody>
+                  <tr>
+                  <td><strong>Name</strong></td>
+                    <td>
+                      {item.properties.NameOfOrganization}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Contact Person</strong></td>
+                    <td>
+                      {item.properties.contact}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Phone</strong></td>
+                    <td>
+                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Email</strong></td>
+                    <td>
+                      <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
+                    </td>
                   </tr>
                   <tr>
-                  <td><strong>Contact Person</strong></td>
-                  <td>
-                    {item.properties.contact}
-                  </td>
+                    <td>
+                      <strong>Website</strong>
+                    </td>
+                    <td>
+                      <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                    </td>
                   </tr>
                   <tr>
-                  <td><strong>Phone</strong></td>
-                  <td>
-                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
-                  </td>
+                    <td><strong>County</strong></td>
+                    <td>{item.properties.county}</td>
                   </tr>
                   <tr>
-                  <td><strong>Email</strong></td>
-                  <td>
-                    <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong>Website</strong>
-                  </td>
-                  <td>
-                    <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>County</strong></td>
-                  <td>{item.properties.county}</td>
-                </tr>
-                <tr>
-                  <td><strong>Town/Constituency</strong></td>
-                  <td>{item.properties.Township}</td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-          </Popup>
-        </Circle>
-      )
+                    <td><strong>Town/Constituency</strong></td>
+                    <td>{item.properties.Township}</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </Popup>
+          </Circle>
+        )
+      }
     }
   }) : null}
   {education ? CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null && item.properties.Education !== null){
-      return (
-        <Circle key={item.properties.Latitude + 'edu' + item.properties.Longitude} fillColor='green' color='green' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
-          <Popup>
-          <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
-            <table className='table'>
-              <tbody>
-                <tr>
-                <td><strong>Name</strong></td>
-                  <td>
-                    {item.properties.NameOfOrganization}
-                  </td>
+      if(county !== ' '){
+        if((item.properties.county === county) || item.properties.county.includes(county)){
+          return (
+            <Circle key={item.properties.Latitude + 'edu' + item.properties.Longitude} fillColor='green' color='green' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+              <Popup>
+              <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
+                <table className='table'>
+                  <tbody>
+                    <tr>
+                    <td><strong>Name</strong></td>
+                      <td>
+                        {item.properties.NameOfOrganization}
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Contact Person</strong></td>
+                      <td>
+                        {item.properties.contact}
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Phone</strong></td>
+                      <td>
+                        <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Email</strong></td>
+                      <td>
+                        <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Website</strong>
+                      </td>
+                      <td>
+                        <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>County</strong></td>
+                      <td>{item.properties.county}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Town/Constituency</strong></td>
+                      <td>{item.properties.Township}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+              </Popup>
+            </Circle>
+          )
+        }
+      } else {
+        return (
+          <Circle key={item.properties.Latitude + 'edu' + item.properties.Longitude} fillColor='green' color='green' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <Popup>
+            <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
+              <table className='table'>
+                <tbody>
+                  <tr>
+                  <td><strong>Name</strong></td>
+                    <td>
+                      {item.properties.NameOfOrganization}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Contact Person</strong></td>
+                    <td>
+                      {item.properties.contact}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Phone</strong></td>
+                    <td>
+                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Email</strong></td>
+                    <td>
+                      <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
+                    </td>
                   </tr>
                   <tr>
-                  <td><strong>Contact Person</strong></td>
-                  <td>
-                    {item.properties.contact}
-                  </td>
+                    <td>
+                      <strong>Website</strong>
+                    </td>
+                    <td>
+                      <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                    </td>
                   </tr>
                   <tr>
-                  <td><strong>Phone</strong></td>
-                  <td>
-                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
-                  </td>
+                    <td><strong>County</strong></td>
+                    <td>{item.properties.county}</td>
                   </tr>
                   <tr>
-                  <td><strong>Email</strong></td>
-                  <td>
-                    <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong>Website</strong>
-                  </td>
-                  <td>
-                    <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>County</strong></td>
-                  <td>{item.properties.county}</td>
-                </tr>
-                <tr>
-                  <td><strong>Town/Constituency</strong></td>
-                  <td>{item.properties.Township}</td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-          </Popup>
-        </Circle>
-      )
+                    <td><strong>Town/Constituency</strong></td>
+                    <td>{item.properties.Township}</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </Popup>
+          </Circle>
+        )
+      }
     }
   }) : null}
   {protection ?  CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null && item.properties.Protection !== null){
-      return (
-        <Circle key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
-          <Popup>
-          <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
-            <table className='table'>
-              <tbody>
-                <tr>
-                <td><strong>Name</strong></td>
-                  <td>
-                    {item.properties.NameOfOrganization}
-                  </td>
+      if(county !== ' '){
+        if((item.properties.county === county) || item.properties.county.includes(county)){
+          return (
+            <Circle key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+              <Popup>
+              <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
+                <table className='table'>
+                  <tbody>
+                    <tr>
+                    <td><strong>Name</strong></td>
+                      <td>
+                        {item.properties.NameOfOrganization}
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Contact Person</strong></td>
+                      <td>
+                        {item.properties.contact}
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Phone</strong></td>
+                      <td>
+                        <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                      </td>
+                      </tr>
+                      <tr>
+                      <td><strong>Email</strong></td>
+                      <td>
+                        <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <strong>Website</strong>
+                      </td>
+                      <td>
+                        <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>County</strong></td>
+                      <td>{item.properties.county}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Town/Constituency</strong></td>
+                      <td>{item.properties.Township}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                </div>
+              </Popup>
+            </Circle>
+          )
+        }
+      } else {
+        return (
+          <Circle key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <Popup>
+            <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
+              <table className='table'>
+                <tbody>
+                  <tr>
+                  <td><strong>Name</strong></td>
+                    <td>
+                      {item.properties.NameOfOrganization}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Contact Person</strong></td>
+                    <td>
+                      {item.properties.contact}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Phone</strong></td>
+                    <td>
+                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Email</strong></td>
+                    <td>
+                      <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
+                    </td>
                   </tr>
                   <tr>
-                  <td><strong>Contact Person</strong></td>
-                  <td>
-                    {item.properties.contact}
-                  </td>
+                    <td>
+                      <strong>Website</strong>
+                    </td>
+                    <td>
+                      <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                    </td>
                   </tr>
                   <tr>
-                  <td><strong>Phone</strong></td>
-                  <td>
-                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
-                  </td>
+                    <td><strong>County</strong></td>
+                    <td>{item.properties.county}</td>
                   </tr>
                   <tr>
-                  <td><strong>Email</strong></td>
-                  <td>
-                    <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong>Website</strong>
-                  </td>
-                  <td>
-                    <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>County</strong></td>
-                  <td>{item.properties.county}</td>
-                </tr>
-                <tr>
-                  <td><strong>Town/Constituency</strong></td>
-                  <td>{item.properties.Township}</td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-          </Popup>
-        </Circle>
-      )
+                    <td><strong>Town/Constituency</strong></td>
+                    <td>{item.properties.Township}</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </Popup>
+          </Circle>
+        )
+      }
     }
   }) : null}
   {advocacy ?  CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null && item.properties.Empowerment !== null){
+      if(county !== ' '){
+        if((item.properties.county === county) || item.properties.county.includes(county)){
       return (
-        <Circle key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='indigo' color='indigo' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+        <Circle key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='cyan' color='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
           <Popup>
             <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
             <table className='table'>
@@ -720,6 +955,61 @@ React.useEffect(() => {
           </Popup>
         </Circle>
       )
+        }
+      } else {
+        return (
+          <Circle key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='cyan' color='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <Popup>
+              <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
+              <table className='table'>
+                <tbody>
+                  <tr>
+                  <td><strong>Name</strong></td>
+                    <td>
+                      {item.properties.NameOfOrganization}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Contact Person</strong></td>
+                    <td>
+                      {item.properties.contact}
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Phone</strong></td>
+                    <td>
+                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td><strong>Email</strong></td>
+                    <td>
+                      <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Website</strong>
+                    </td>
+                    <td>
+                      <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>County</strong></td>
+                    <td>{item.properties.county}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Town/Constituency</strong></td>
+                    <td>{item.properties.Township}</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </Popup>
+          </Circle>
+        )
+      }
     }
   }) : null}
 </MapContainer>
@@ -744,6 +1034,14 @@ React.useEffect(() => {
           </Text>
         </Group>
         <div className={classes.collections}>{collectionLinks}</div>
+        <Group className={classes.collectionsHeader} position="apart">
+          <Text size="xs" weight={500} color="dimmed">
+            Filter by County
+          </Text>
+        </Group>
+        <div className={classes.collections}>
+          <TextInput value={county} onChange={(event) => {setCounty(event.target.value)}} placeholder='County name e.g Kericho' />
+        </div>
       </Navbar.Section>
       <Navbar.Section className={classes.section}>
         <div className={classes.mainLinks}>{mainLinks}</div>
@@ -834,7 +1132,7 @@ React.useEffect(() => {
             size={80}
             roundCaps
             thickness={8}
-            sections={[{ value: Math.floor((empowermentt / total) * 100), color: 'indigo' }]}
+            sections={[{ value: Math.floor((empowermentt / total) * 100), color: 'cyan' }]}
             label={
               <Center>
                 <ArrowUpRight size={22} />
