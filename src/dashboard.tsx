@@ -330,7 +330,7 @@ export default function Dashboard() {
     >
       <Group direction='row' position='apart'>
       {collection.label}
-        <Checkbox checked={collection.value} onClick={() => {handleCSOs(collection.id)}} icon={CheckboxIcon} />
+        <Checkbox checked={collection.value} onChange={() => {handleCSOs(collection.id)}} onClick={() => {handleCSOs(collection.id)}} icon={CheckboxIcon} />
       </Group>
     </a>
   ));
@@ -445,36 +445,54 @@ React.useEffect(() => {
   {cso ? CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null){
       return (
-        <Circle fillColor='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+        <Circle key={item.properties.Latitude + 'all'+ item.properties.Longitude} fillColor='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
           <Popup>
+          <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
             <table className='table'>
               <tbody>
                 <tr>
-                <td><strong>Health</strong></td>
+                <td><strong>Name</strong></td>
                   <td>
-                    {item.properties.Health}
+                    {item.properties.NameOfOrganization}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Education</strong></td>
+                  <td><strong>Contact Person</strong></td>
                   <td>
-                    {item.properties.Education}
+                    {item.properties.contact}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Protection</strong></td>
+                  <td><strong>Phone</strong></td>
                   <td>
-                    {item.properties.Protection}
+                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Empowerment</strong></td>
+                  <td><strong>Email</strong></td>
                   <td>
-                    {item.properties.Empowerment}
+                    <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
                   </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Website</strong>
+                  </td>
+                  <td>
+                    <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>County</strong></td>
+                  <td>{item.properties.county}</td>
+                </tr>
+                <tr>
+                  <td><strong>Town/Constituency</strong></td>
+                  <td>{item.properties.Township}</td>
                 </tr>
               </tbody>
             </table>
+            </div>
           </Popup>
         </Circle>
       )
@@ -483,36 +501,54 @@ React.useEffect(() => {
   {health ? CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null && item.properties.Health === 'Yes'){
       return (
-        <Circle fillColor='blue' color='blue' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+        <Circle key={item.properties.Latitude + 'health' + item.properties.Longitude} fillColor='blue' color='blue' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
           <Popup>
+          <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
             <table className='table'>
               <tbody>
                 <tr>
-                <td><strong>Health</strong></td>
+                <td><strong>Name</strong></td>
                   <td>
-                    {item.properties.Health}
+                    {item.properties.NameOfOrganization}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Education</strong></td>
+                  <td><strong>Contact Person</strong></td>
                   <td>
-                    {item.properties.Education}
+                    {item.properties.contact}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Protection</strong></td>
+                  <td><strong>Phone</strong></td>
                   <td>
-                    {item.properties.Protection}
+                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Empowerment</strong></td>
+                  <td><strong>Email</strong></td>
                   <td>
-                    {item.properties.Empowerment}
+                    <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
                   </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Website</strong>
+                  </td>
+                  <td>
+                    <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>County</strong></td>
+                  <td>{item.properties.county}</td>
+                </tr>
+                <tr>
+                  <td><strong>Town/Constituency</strong></td>
+                  <td>{item.properties.Township}</td>
                 </tr>
               </tbody>
             </table>
+            </div>
           </Popup>
         </Circle>
       )
@@ -521,36 +557,54 @@ React.useEffect(() => {
   {education ? CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null && item.properties.Education !== null){
       return (
-        <Circle fillColor='green' color='green' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+        <Circle key={item.properties.Latitude + 'edu' + item.properties.Longitude} fillColor='green' color='green' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
           <Popup>
+          <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
             <table className='table'>
               <tbody>
                 <tr>
-                <td><strong>Health</strong></td>
+                <td><strong>Name</strong></td>
                   <td>
-                    {item.properties.Health}
+                    {item.properties.NameOfOrganization}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Education</strong></td>
+                  <td><strong>Contact Person</strong></td>
                   <td>
-                    {item.properties.Education}
+                    {item.properties.contact}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Protection</strong></td>
+                  <td><strong>Phone</strong></td>
                   <td>
-                    {item.properties.Protection}
+                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Empowerment</strong></td>
+                  <td><strong>Email</strong></td>
                   <td>
-                    {item.properties.Empowerment}
+                    <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
                   </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Website</strong>
+                  </td>
+                  <td>
+                    <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>County</strong></td>
+                  <td>{item.properties.county}</td>
+                </tr>
+                <tr>
+                  <td><strong>Town/Constituency</strong></td>
+                  <td>{item.properties.Township}</td>
                 </tr>
               </tbody>
             </table>
+            </div>
           </Popup>
         </Circle>
       )
@@ -559,36 +613,54 @@ React.useEffect(() => {
   {protection ?  CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null && item.properties.Protection !== null){
       return (
-        <Circle fillColor='red' color='red' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+        <Circle key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
           <Popup>
+          <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
             <table className='table'>
               <tbody>
                 <tr>
-                <td><strong>Health</strong></td>
+                <td><strong>Name</strong></td>
                   <td>
-                    {item.properties.Health}
+                    {item.properties.NameOfOrganization}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Education</strong></td>
+                  <td><strong>Contact Person</strong></td>
                   <td>
-                    {item.properties.Education}
+                    {item.properties.contact}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Protection</strong></td>
+                  <td><strong>Phone</strong></td>
                   <td>
-                    {item.properties.Protection}
+                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Empowerment</strong></td>
+                  <td><strong>Email</strong></td>
                   <td>
-                    {item.properties.Empowerment}
+                    <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
                   </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Website</strong>
+                  </td>
+                  <td>
+                    <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>County</strong></td>
+                  <td>{item.properties.county}</td>
+                </tr>
+                <tr>
+                  <td><strong>Town/Constituency</strong></td>
+                  <td>{item.properties.Township}</td>
                 </tr>
               </tbody>
             </table>
+            </div>
           </Popup>
         </Circle>
       )
@@ -597,36 +669,54 @@ React.useEffect(() => {
   {advocacy ?  CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null && item.properties.Empowerment !== null){
       return (
-        <Circle fillColor='indigo' color='indigo' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+        <Circle key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='indigo' color='indigo' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
           <Popup>
+            <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
             <table className='table'>
               <tbody>
                 <tr>
-                <td><strong>Health</strong></td>
+                <td><strong>Name</strong></td>
                   <td>
-                    {item.properties.Health}
+                    {item.properties.NameOfOrganization}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Education</strong></td>
+                  <td><strong>Contact Person</strong></td>
                   <td>
-                    {item.properties.Education}
+                    {item.properties.contact}
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Protection</strong></td>
+                  <td><strong>Phone</strong></td>
                   <td>
-                    {item.properties.Protection}
+                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
                   </td>
                   </tr>
                   <tr>
-                  <td><strong>Empowerment</strong></td>
+                  <td><strong>Email</strong></td>
                   <td>
-                    {item.properties.Empowerment}
+                    <a href={'mailto:'+item.properties.email}>{item.properties.email}</a>
                   </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Website</strong>
+                  </td>
+                  <td>
+                    <a target={'_blank'} href={item.properties.website}>{item.properties.website}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>County</strong></td>
+                  <td>{item.properties.county}</td>
+                </tr>
+                <tr>
+                  <td><strong>Town/Constituency</strong></td>
+                  <td>{item.properties.Township}</td>
                 </tr>
               </tbody>
             </table>
+            </div>
           </Popup>
         </Circle>
       )
@@ -769,7 +859,7 @@ React.useEffect(() => {
       header={
         <Header height={56} className={classes.header}>
           <div className={classes.inner}>
-            <Group>
+            <Group style={{marginTop: 10}} >
             <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
               <Burger
                 opened={opened}
@@ -779,7 +869,7 @@ React.useEffect(() => {
                 mr="xl"
               />
             </MediaQuery>
-            <p>LOGO</p>
+            <p >CSO</p>
             </Group>
 
             <Group ml={50} spacing={5} className={classes.links}>

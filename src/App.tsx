@@ -3,9 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 import Dashboard from './dashboard';
 import { MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core';
+import { useColorScheme } from '@mantine/hooks';
 
 function App() {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
+  const preferredColorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(preferredColorScheme);
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
