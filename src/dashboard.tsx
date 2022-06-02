@@ -1167,7 +1167,7 @@ React.useEffect(() => {
                 mr="xl"
               />
             </MediaQuery>
-            <p >CSO</p>
+            <p >Child Agenda Forum</p>
             </Group>
 
             <Group ml={50} spacing={5} className={classes.links}>
