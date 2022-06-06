@@ -21,17 +21,18 @@ import {
   RingProgress,
   Center,
   TextInput,
-  Button
+  Button,
+  Select
 } from '@mantine/core';
-import { MapContainer, TileLayer, useMap, Circle, LayersControl, Marker, Popup, GeoJSON } from 'react-leaflet';
-import { ArrowUpRight, Check, Filter, Plus } from 'tabler-icons-react';
+import { MapContainer, TileLayer, useMap, Circle, CircleMarker, LayersControl, Marker, Popup, GeoJSON } from 'react-leaflet';
+import { ArrowUpRight, Check, Filter, Location, Plus } from 'tabler-icons-react';
 import { SwitchToggle } from './ToggleTheme';
 import pregnancy from './teen_pregnancy';
 import wellbeing from './child_wellbeing';
 import { StatsRing } from './statistics';
 import CSOs from './cso';
 import { CONTROL_SIZES } from '@mantine/core/lib/components/NumberInput/NumberInput.styles';
-
+const kenyacounties = require('kenyacounties');
 const useStyles = createStyles((theme) => ({
     header: {
       paddingLeft: theme.spacing.md,
@@ -186,6 +187,11 @@ export default function Dashboard() {
   const [educationt, setEducationTotal] = useState<number>(0);
   const [protectiont, setProtectionTotal] = useState<number>(0);
   const [empowermentt, setEmpowermentTotal] = useState<number>(0);
+
+  const [code, setCode] = useState<number>(0);
+
+  // kenya counties
+  let kenya_counties = kenyacounties.getAll();
 
   // filter by country
   const [county, setCounty] = useState<string>('');
@@ -416,6 +422,8 @@ React.useEffect(() => {
   }
 
   simpleArithmetics();
+
+  
 }, [])
 
 
@@ -452,7 +460,7 @@ React.useEffect(() => {
       if(county !== ' '){
         if((item.properties.county === county) || item.properties.county.includes(county)){
           return (
-            <Circle key={item.properties.Latitude + 'all'+ item.properties.Longitude} fillColor='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <CircleMarker key={item.properties.Latitude + 'all'+ item.properties.Longitude} fillColor='cyan' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
               <Popup>
               <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
                 <table className='table'>
@@ -501,12 +509,12 @@ React.useEffect(() => {
                 </table>
                 </div>
               </Popup>
-            </Circle>
+            </CircleMarker>
           )
         }
       } else {
         return (
-          <Circle key={item.properties.Latitude + 'all'+ item.properties.Longitude} fillColor='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <CircleMarker key={item.properties.Latitude + 'all'+ item.properties.Longitude} fillColor='cyan' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
             <Popup>
             <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
               <table className='table'>
@@ -555,7 +563,7 @@ React.useEffect(() => {
               </table>
               </div>
             </Popup>
-          </Circle>
+          </CircleMarker>
         )
       }
     }
@@ -565,7 +573,7 @@ React.useEffect(() => {
       if(county !== ' '){
         if((item.properties.county === county) || item.properties.county.includes(county)){
           return (
-            <Circle key={item.properties.Latitude + 'health' + item.properties.Longitude} fillColor='blue' color='blue' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <CircleMarker key={item.properties.Latitude + 'health' + item.properties.Longitude} fillColor='blue' color='blue' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
               <Popup>
               <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
                 <table className='table'>
@@ -614,12 +622,12 @@ React.useEffect(() => {
                 </table>
                 </div>
               </Popup>
-            </Circle>
+            </CircleMarker>
           )
         }
       } else {
         return (
-          <Circle key={item.properties.Latitude + 'health' + item.properties.Longitude} fillColor='blue' color='blue' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <CircleMarker key={item.properties.Latitude + 'health' + item.properties.Longitude} fillColor='blue' color='blue' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
             <Popup>
             <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
               <table className='table'>
@@ -668,7 +676,7 @@ React.useEffect(() => {
               </table>
               </div>
             </Popup>
-          </Circle>
+          </CircleMarker>
         )
       }
     }
@@ -676,9 +684,9 @@ React.useEffect(() => {
   {education ? CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null && item.properties.Education !== null){
       if(county !== ' '){
-        if((item.properties.county === county) || item.properties.county.includes(county)){
+        if((item.properties.county === county || item.properties.county.includes(county))){
           return (
-            <Circle key={item.properties.Latitude + 'edu' + item.properties.Longitude} fillColor='green' color='green' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <CircleMarker key={item.properties.Latitude + 'edu' + item.properties.Longitude} fillColor='green' color='green' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
               <Popup>
               <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
                 <table className='table'>
@@ -727,12 +735,12 @@ React.useEffect(() => {
                 </table>
                 </div>
               </Popup>
-            </Circle>
+            </CircleMarker>
           )
         }
       } else {
         return (
-          <Circle key={item.properties.Latitude + 'edu' + item.properties.Longitude} fillColor='green' color='green' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <CircleMarker key={item.properties.Latitude + 'edu' + item.properties.Longitude} fillColor='green' color='green' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
             <Popup>
             <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
               <table className='table'>
@@ -781,7 +789,7 @@ React.useEffect(() => {
               </table>
               </div>
             </Popup>
-          </Circle>
+          </CircleMarker>
         )
       }
     }
@@ -791,7 +799,7 @@ React.useEffect(() => {
       if(county !== ' '){
         if((item.properties.county === county) || item.properties.county.includes(county)){
           return (
-            <Circle key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <CircleMarker key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
               <Popup>
               <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
                 <table className='table'>
@@ -840,12 +848,12 @@ React.useEffect(() => {
                 </table>
                 </div>
               </Popup>
-            </Circle>
+            </CircleMarker>
           )
         }
       } else {
         return (
-          <Circle key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <CircleMarker key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
             <Popup>
             <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
               <table className='table'>
@@ -894,7 +902,7 @@ React.useEffect(() => {
               </table>
               </div>
             </Popup>
-          </Circle>
+          </CircleMarker>
         )
       }
     }
@@ -904,7 +912,7 @@ React.useEffect(() => {
       if(county !== ' '){
         if((item.properties.county === county) || item.properties.county.includes(county)){
       return (
-        <Circle key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='cyan' color='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+        <CircleMarker key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='cyan' color='cyan' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
           <Popup>
             <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
             <table className='table'>
@@ -953,12 +961,12 @@ React.useEffect(() => {
             </table>
             </div>
           </Popup>
-        </Circle>
+        </CircleMarker>
       )
         }
       } else {
         return (
-          <Circle key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='cyan' color='cyan' radius={10000} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <CircleMarker key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='cyan' color='cyan' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
             <Popup>
               <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
               <table className='table'>
@@ -1007,7 +1015,7 @@ React.useEffect(() => {
               </table>
               </div>
             </Popup>
-          </Circle>
+          </CircleMarker>
         )
       }
     }
@@ -1040,8 +1048,65 @@ React.useEffect(() => {
           </Text>
         </Group>
         <div className={classes.collections}>
-          <TextInput value={county} onChange={(event) => {setCounty(event.target.value)}} placeholder='County name e.g Kericho' />
+          <Select value={county} onChange={(val: any) => {setCounty(val)}}  placeholder="Filter by county" data={[
+            {value: '', label: 'All'},
+            {value: 'Baringo', label: 'Baringo'},
+            {value: 'Kericho', label: 'Kericho'},
+            {value: 'Nairobi', label: 'Nairobi'},
+            {value: 'Mombasa', label: 'Mombasa'},
+            {value: 'Nakuru', label: 'Nakuru'},
+            {value: 'Elgeyo_Marakwet', label: 'Elgeyo Marakwet'},
+            {value: 'West Pokot', label: 'West Pokot'},
+            {value: 'Narok', label: 'Narok'},
+            {value: 'Kajiado', label: 'Kajiado'},
+            {value: 'Machakos', label: 'Machakos'},
+            {value: 'Embu', label: 'Embu'},
+            {value: 'Tharaka', label: 'Tharaka Nithi'},
+            {value: 'Laikipia', label: 'Laikipia'},
+            {value: 'Nyandarua', label: 'Nyandarua'},
+            {value: 'Kitui', label: 'Kitui'},
+            {value: 'Makueni', label: 'Makueni'},
+            {value: 'Tana River', label: 'Tana River'},
+            {value: 'Garissa', label: 'Garissa'},
+            {value: 'Bomet', label: 'Bomet'},
+            {value: 'Bungoma', label: 'Bungoma'},
+            {value: 'Busia', label: 'Busia'},
+            {value: 'Homa Bay', label: 'Homa Bay'},
+            {value: 'Isiolo', label: 'Isiolo'},
+            {value: 'Kakamega', label: 'Kakamega'},
+            {value: 'Kiambu', label: 'Kiambu'},
+            {value: 'Kilifi', label: 'Kilifi'},
+            {value: 'Kirinyaga', label: 'Kirinyaga'},
+            {value: 'Kisii', label: 'Kisii'},
+            {value: 'Kisumu', label: 'Kisumu'},
+            {value: 'Kwale', label: 'Kwale'},
+            {value: 'Lamu', label: 'Lamu'},
+            {value: 'Mandera', label: 'Mandera'},
+            {value: 'Marsabit', label: 'Marsabit'},
+            {value: 'Meru', label: 'Meru'},
+            {value: 'Migori', label: 'Migori'},
+            {value: "Murang'a", label: "Murang'a"},
+            {value: 'Nandi', label: 'Nandi'},
+            {value: 'Nyamira', label: 'Nyamira'},
+            {value: 'Nyeri', label: 'Nyamira'},
+            {value: 'Samburu', label: 'Samburu'},
+            {value: 'Siaya', label: 'Siaya'},
+            {value: 'Taita_Taveta', label: 'Taita-Taveta'},
+            {value: 'Trans Nzoia', label: 'Trans Nzoia'},
+            {value: 'Turkana', label: 'Turkana'},
+            {value: 'Uasin Gishu', label: 'Uasin Gishu'},
+            {value: 'Vihiga', label: 'Vihiga'},
+            {value: 'Wajir', label: 'Wajir'},
+          ]} searchable clearable allowDeselect icon={<Location size={15} />} />
         </div>
+        {county !== ''? (
+          <Text style={{fontSize: 10, marginLeft: 20}} >Your are viewing results for: {county}</Text>
+        ) : null}
+        {county !== '' ? (
+          <Group direction='row' position='right'>
+            <Button variant='subtle' onClick={() => {setCounty('')}} radius={'lg'}>Reset</Button>
+          </Group>
+        ) : null}
       </Navbar.Section>
       <Navbar.Section className={classes.section}>
         <div className={classes.mainLinks}>{mainLinks}</div>
