@@ -377,7 +377,7 @@ export default function Dashboard() {
   indeterminate ? <Check className={className} /> : <Check className={className} />;
 
   const mainLinks = links2.map((link) => (
-    <UnstyledButton key={link.label} className={classes.mainLink}>
+    <UnstyledButton onClick={()=>{ handleMainLinks(link.id)}} key={link.label} className={classes.mainLink}>
       <div className={classes.mainLinkInner}>
         <span>{link.label}</span>
       </div>
