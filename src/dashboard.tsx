@@ -1038,7 +1038,7 @@ React.useEffect(() => {
 <Navbar.Section className={classes.section}>
         <Group className={classes.collectionsHeader} position="apart">
           <Text size="xs" weight={500} color="dimmed">
-            Local CSOs
+            Child Service Providers
           </Text>
         </Group>
         <div className={classes.collections}>{collectionLinks}</div>
