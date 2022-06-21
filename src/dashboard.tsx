@@ -1038,7 +1038,7 @@ React.useEffect(() => {
 <Navbar.Section className={classes.section}>
         <Group className={classes.collectionsHeader} position="apart">
           <Text size="xs" weight={500} color="dimmed">
-            Children Service Providers
+            Local CSOs
           </Text>
         </Group>
         <div className={classes.collections}>{collectionLinks}</div>
@@ -1232,7 +1232,7 @@ React.useEffect(() => {
                 mr="xl"
               />
             </MediaQuery>
-            <p >Child Agenda Forum</p>
+            <p >Child Service Providers</p>
             </Group>
 
             <Group ml={50} spacing={5} className={classes.links}>
