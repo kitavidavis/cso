@@ -266,6 +266,58 @@ export default function Dashboard() {
       <GeoJSON data={wellbeing} style={(f) => {return styleChildWellbeing(f?.properties.Wellbeing)}} />
     )
   }
+  
+  const handleURL = (label: string) => {
+  	switch(label){
+	      case 'all':
+        setCSO(!cso);
+        setProtection(false);
+        setAdvocacy(false);
+        setEducation(false);
+        setHealth(false);
+        setOpened(false);
+        break;
+
+      case 'health':
+        setHealth(true);
+        setCSO(false);
+        setProtection(false);
+        setAdvocacy(false);
+        setEducation(false);
+        setOpened(false);
+        break;
+
+      case 'education':
+        setEducation(true);
+        setCSO(false);
+        setHealth(false);
+        setProtection(false);
+        setAdvocacy(false);
+        setOpened(false);
+        break;
+
+      case 'protection':
+        setProtection(true);
+        setEducation(false);
+        setCSO(false);
+        setHealth(false);
+        setAdvocacy(false);
+        setOpened(false);
+        break;
+
+      case 'advocacy':
+        setAdvocacy(true);
+        setEducation(false);
+        setCSO(false);
+        setHealth(false);
+        setProtection(false);
+        setOpened(false);
+        break;
+
+      default:
+        console.log('Error!');
+	}
+  }
 
 
   const handleCSOs = (id: string) => {
@@ -336,6 +388,7 @@ export default function Dashboard() {
   const collectionLinks = collections.map((collection) => (
     <a
       href={'#/cso/'+collection.label}
+	onClick={()=> handleURL(collection.id)}
       key={collection.label}
       className={classes.collectionLink}
     >
