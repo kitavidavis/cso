@@ -30,8 +30,7 @@ import { SwitchToggle } from './ToggleTheme';
 import pregnancy from './teen_pregnancy';
 import wellbeing from './child_wellbeing';
 import { StatsRing } from './statistics';
-import CSOs from './cso';
-import { CONTROL_SIZES } from '@mantine/core/lib/components/NumberInput/NumberInput.styles';
+import  CSOs from './updatedCSO';
 const kenyacounties = require('kenyacounties');
 const useStyles = createStyles((theme) => ({
     header: {
