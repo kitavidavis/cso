@@ -827,7 +827,7 @@ React.useEffect(() => {
       if(county !== ' '){
         if((item.properties.county === county) || item.properties.county.includes(county)){
           return (
-            <CircleMarker key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
+            <CircleMarker key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='#A61E4D' color='#A61E4D' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
               <Popup>
               <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
                 <table className='table'>
@@ -877,7 +877,7 @@ React.useEffect(() => {
         }
       } else {
         return (
-          <CircleMarker key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='red' color='red' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <CircleMarker key={item.properties.Latitude + 'protect' + item.properties.Longitude} fillColor='#A61E4D' color='#A61E4D' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
             <Popup>
             <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
               <table className='table'>
@@ -932,7 +932,7 @@ React.useEffect(() => {
       if(county !== ' '){
         if((item.properties.county === county) || item.properties.county.includes(county)){
       return (
-        <CircleMarker key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='cyan' color='cyan' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
+        <CircleMarker key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='#E8590C' color='#E8590C' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
           <Popup>
             <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
             <table className='table'>
@@ -982,7 +982,7 @@ React.useEffect(() => {
         }
       } else {
         return (
-          <CircleMarker key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='cyan' color='cyan' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
+          <CircleMarker key={item.properties.Latitude + 'emp' + item.properties.Longitude} fillColor='#E8590C' color='#E8590C' radius={5} center={[item.properties.Latitude, item.properties.Longitude]}>
             <Popup>
               <div style={{height: 200, overflowY: 'auto', width: '100%'}} >
               <table className='table'>
@@ -1184,7 +1184,7 @@ React.useEffect(() => {
             size={80}
             roundCaps
             thickness={8}
-            sections={[{ value: Math.floor((protectiont / total) * 100), color: 'red' }]}
+            sections={[{ value: Math.floor((protectiont / total) * 100), color: '#A61E4D' }]}
             label={
               <Center>
                 <ArrowUpRight size={22} />
@@ -1209,7 +1209,7 @@ React.useEffect(() => {
             size={80}
             roundCaps
             thickness={8}
-            sections={[{ value: Math.floor((empowermentt / total) * 100), color: 'cyan' }]}
+            sections={[{ value: Math.floor((empowermentt / total) * 100), color: '#E8590C' }]}
             label={
               <Center>
                 <ArrowUpRight size={22} />
