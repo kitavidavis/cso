@@ -520,7 +520,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Name</strong></td>
                       <td>
-                        {item.properties.Organization}
+                      <strong>{item.properties.Organization}</strong>
                       </td>
                       </tr>
                       <tr>
@@ -570,7 +570,7 @@ React.useEffect(() => {
                   <tr>
                   <td><strong>Name</strong></td>
                     <td>
-                      {item.properties.NameOfOrganization}
+                    <strong>{item.properties.Organization}</strong>
                     </td>
                     </tr>
                     <tr>
@@ -582,7 +582,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Phone</strong></td>
                     <td>
-                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                     </td>
                     </tr>
                     <tr>
@@ -625,7 +625,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Name</strong></td>
                       <td>
-                        {item.properties.NameOfOrganization}
+                      <strong>{item.properties.Organization}</strong>
                       </td>
                       </tr>
                       <tr>
@@ -637,7 +637,7 @@ React.useEffect(() => {
                       <tr>
                       <td><strong>Phone</strong></td>
                       <td>
-                        <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                      <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                       </td>
                       </tr>
                       <tr>
@@ -675,7 +675,7 @@ React.useEffect(() => {
                   <tr>
                   <td><strong>Name</strong></td>
                     <td>
-                      {item.properties.NameOfOrganization}
+                    <strong>{item.properties.Organization}</strong>
                     </td>
                     </tr>
                     <tr>
@@ -687,7 +687,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Phone</strong></td>
                     <td>
-                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                     </td>
                     </tr>
                     <tr>
@@ -730,7 +730,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Name</strong></td>
                       <td>
-                        {item.properties.NameOfOrganization}
+                      <strong>{item.properties.Organization}</strong>
                       </td>
                       </tr>
                       <tr>
@@ -742,7 +742,7 @@ React.useEffect(() => {
                       <tr>
                       <td><strong>Phone</strong></td>
                       <td>
-                        <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                      <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                       </td>
                       </tr>
                       <tr>
@@ -780,7 +780,7 @@ React.useEffect(() => {
                   <tr>
                   <td><strong>Name</strong></td>
                     <td>
-                      {item.properties.NameOfOrganization}
+                    <strong>{item.properties.Organization}</strong>
                     </td>
                     </tr>
                     <tr>
@@ -792,7 +792,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Phone</strong></td>
                     <td>
-                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                     </td>
                     </tr>
                     <tr>
@@ -835,7 +835,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Name</strong></td>
                       <td>
-                        {item.properties.NameOfOrganization}
+                      <strong>{item.properties.Organization}</strong>
                       </td>
                       </tr>
                       <tr>
@@ -847,7 +847,7 @@ React.useEffect(() => {
                       <tr>
                       <td><strong>Phone</strong></td>
                       <td>
-                        <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                      <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                       </td>
                       </tr>
                       <tr>
@@ -885,7 +885,7 @@ React.useEffect(() => {
                   <tr>
                   <td><strong>Name</strong></td>
                     <td>
-                      {item.properties.NameOfOrganization}
+                    <strong>{item.properties.Organization}</strong>
                     </td>
                     </tr>
                     <tr>
@@ -897,7 +897,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Phone</strong></td>
                     <td>
-                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                     </td>
                     </tr>
                     <tr>
@@ -940,7 +940,7 @@ React.useEffect(() => {
                 <tr>
                 <td><strong>Name</strong></td>
                   <td>
-                    {item.properties.NameOfOrganization}
+                  <strong>{item.properties.Organization}</strong>
                   </td>
                   </tr>
                   <tr>
@@ -952,7 +952,7 @@ React.useEffect(() => {
                   <tr>
                   <td><strong>Phone</strong></td>
                   <td>
-                    <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                  <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                   </td>
                   </tr>
                   <tr>
@@ -990,7 +990,7 @@ React.useEffect(() => {
                   <tr>
                   <td><strong>Name</strong></td>
                     <td>
-                      {item.properties.NameOfOrganization}
+                      <strong>{item.properties.Organization}</strong>
                     </td>
                     </tr>
                     <tr>
@@ -1002,7 +1002,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Phone</strong></td>
                     <td>
-                      <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                    <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                     </td>
                     </tr>
                     <tr>
