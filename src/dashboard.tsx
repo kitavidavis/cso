@@ -499,7 +499,7 @@ React.useEffect(() => {
 
         </LayersControl.Overlay>
         <LayersControl.Overlay name='Teen Pregnancy'>
-
+          
         </LayersControl.Overlay>
         <LayersControl.Overlay name='Child Wellbeing'>
 
@@ -520,7 +520,7 @@ React.useEffect(() => {
                     <tr>
                     <td><strong>Name</strong></td>
                       <td>
-                        {item.properties.NameOfOrganization}
+                        {item.properties.Organization}
                       </td>
                       </tr>
                       <tr>
@@ -532,7 +532,7 @@ React.useEffect(() => {
                       <tr>
                       <td><strong>Phone</strong></td>
                       <td>
-                        <a href={'tel:'+item.properties.phone}>{item.properties.phone}</a>
+                        <a href={'tel:+'+item.properties.phone}>{"+"+item.properties.phone}</a>
                       </td>
                       </tr>
                       <tr>
@@ -552,10 +552,6 @@ React.useEffect(() => {
                     <tr>
                       <td><strong>County</strong></td>
                       <td>{item.properties.county}</td>
-                    </tr>
-                    <tr>
-                      <td><strong>Town/Constituency</strong></td>
-                      <td>{item.properties.Township}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -606,10 +602,6 @@ React.useEffect(() => {
                   <tr>
                     <td><strong>County</strong></td>
                     <td>{item.properties.county}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Town/Constituency</strong></td>
-                    <td>{item.properties.Township}</td>
                   </tr>
                 </tbody>
               </table>
@@ -666,10 +658,6 @@ React.useEffect(() => {
                       <td><strong>County</strong></td>
                       <td>{item.properties.county}</td>
                     </tr>
-                    <tr>
-                      <td><strong>Town/Constituency</strong></td>
-                      <td>{item.properties.Township}</td>
-                    </tr>
                   </tbody>
                 </table>
                 </div>
@@ -719,10 +707,6 @@ React.useEffect(() => {
                   <tr>
                     <td><strong>County</strong></td>
                     <td>{item.properties.county}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Town/Constituency</strong></td>
-                    <td>{item.properties.Township}</td>
                   </tr>
                 </tbody>
               </table>
@@ -779,10 +763,6 @@ React.useEffect(() => {
                       <td><strong>County</strong></td>
                       <td>{item.properties.county}</td>
                     </tr>
-                    <tr>
-                      <td><strong>Town/Constituency</strong></td>
-                      <td>{item.properties.Township}</td>
-                    </tr>
                   </tbody>
                 </table>
                 </div>
@@ -832,10 +812,6 @@ React.useEffect(() => {
                   <tr>
                     <td><strong>County</strong></td>
                     <td>{item.properties.county}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Town/Constituency</strong></td>
-                    <td>{item.properties.Township}</td>
                   </tr>
                 </tbody>
               </table>
@@ -892,10 +868,6 @@ React.useEffect(() => {
                       <td><strong>County</strong></td>
                       <td>{item.properties.county}</td>
                     </tr>
-                    <tr>
-                      <td><strong>Town/Constituency</strong></td>
-                      <td>{item.properties.Township}</td>
-                    </tr>
                   </tbody>
                 </table>
                 </div>
@@ -945,10 +917,6 @@ React.useEffect(() => {
                   <tr>
                     <td><strong>County</strong></td>
                     <td>{item.properties.county}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Town/Constituency</strong></td>
-                    <td>{item.properties.Township}</td>
                   </tr>
                 </tbody>
               </table>
@@ -1005,10 +973,6 @@ React.useEffect(() => {
                   <td><strong>County</strong></td>
                   <td>{item.properties.county}</td>
                 </tr>
-                <tr>
-                  <td><strong>Town/Constituency</strong></td>
-                  <td>{item.properties.Township}</td>
-                </tr>
               </tbody>
             </table>
             </div>
@@ -1058,10 +1022,6 @@ React.useEffect(() => {
                   <tr>
                     <td><strong>County</strong></td>
                     <td>{item.properties.county}</td>
-                  </tr>
-                  <tr>
-                    <td><strong>Town/Constituency</strong></td>
-                    <td>{item.properties.Township}</td>
                   </tr>
                 </tbody>
               </table>
@@ -1259,7 +1219,7 @@ React.useEffect(() => {
 
           <div>
             <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
-              Empowerment
+            Advocacy
             </Text>
             <Text weight={700} size="xl">
               {empowermentt}
