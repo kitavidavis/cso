@@ -153,7 +153,7 @@ const useStyles = createStyles((theme) => ({
         borderRadius: theme.radius.sm,
         fontSize: theme.fontSizes.xs,
         lineHeight: 1,
-        fontWeight: 500,
+        fontWeight: 'bold',
     
         '&:hover': {
           backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
