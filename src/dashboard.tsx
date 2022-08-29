@@ -377,7 +377,7 @@ export default function Dashboard() {
       style={{color: collection.label === 'Advocacy' ? "#E8590C" : collection.label === "Protection" ? "#A61E4D" : collection.label === "Education" ? "green" : collection.label === "Health" ? "blue" : "cyan"}}
     >
       <Group direction='row' position='apart'>
-      {collection.label}
+      <stron>{collection.label}</stron>
         <Checkbox color = {collection.label === 'Advocacy' ? "orange" : collection.label === "Protection" ? "pink" : collection.label === "Education" ? "green" : collection.label === "Health" ? "blue" : "cyan"} checked={collection.value} onChange={() => {handleCSOs(collection.id)}} onClick={() => {handleCSOs(collection.id)}} icon={CheckboxIcon } />
       </Group>
     </a>
