@@ -226,11 +226,6 @@ export default function Dashboard() {
     {id: 'advocacy', label: 'Advocacy', value: advocacy},
   ];
 
-  const links2 = [
-    {id: 'teen',  label: 'Teen Pregnancy' },
-    {id: 'wellbeing',  label: 'Child Wellbeing' },
-  ];
-
   const handleMainLinks = (id: string) => {
     switch(id){
       case 'cso':
@@ -375,15 +370,6 @@ export default function Dashboard() {
   const CheckboxIcon: CheckboxProps['icon'] = ({ indeterminate, className }) =>
   indeterminate ? <Check className={className} /> : <Check className={className} />;
 
-  const mainLinks = links2.map((link) => (
-    <UnstyledButton key={link.label} className={classes.mainLink}>
-      <div className={classes.mainLinkInner}>
-        <span>{link.label}</span>
-      </div>
-      <Checkbox onClick={() => {handleMainLinks(link.id)}} icon={CheckboxIcon} />
-    </UnstyledButton>
-  ));
-
   const collectionLinks = collections.map((collection) => (
     <a
       href={'#/cso/'+collection.label}
@@ -495,18 +481,7 @@ React.useEffect(() => {
     url={theme.colorScheme === 'light' ? "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}.png" : "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"}
   />
   </LayersControl.BaseLayer>
-        <LayersControl.Overlay name='Local CSO Sites'>
-
-        </LayersControl.Overlay>
-        <LayersControl.Overlay name='Teen Pregnancy'>
-          
-        </LayersControl.Overlay>
-        <LayersControl.Overlay name='Child Wellbeing'>
-
-        </LayersControl.Overlay>
   </LayersControl>
-  {teen ? <TeenPregnancy /> : null}
-  {wellbeing2 ? <WellBeing /> : null}
   {cso ? CSOs.features.map((item: any) => {
     if(item.properties.Latitude !== null){
       if(county !== ' '){
@@ -1119,9 +1094,6 @@ React.useEffect(() => {
             <Button variant='subtle' onClick={() => {setCounty('')}} radius={'lg'}>Reset</Button>
           </Group>
         ) : null}
-      </Navbar.Section>
-      <Navbar.Section className={classes.section}>
-        <div className={classes.mainLinks}>{mainLinks}</div>
       </Navbar.Section>
         </Navbar>
       }
