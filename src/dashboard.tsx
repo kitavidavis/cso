@@ -152,13 +152,11 @@ const useStyles = createStyles((theme) => ({
         cursor: 'text',
         borderRadius: theme.radius.sm,
         fontSize: theme.fontSizes.xs,
-        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
         lineHeight: 1,
         fontWeight: 500,
     
         '&:hover': {
           backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-          color: theme.colorScheme === 'dark' ? theme.white : theme.black,
         },
       },
   }));
@@ -367,7 +365,7 @@ export default function Dashboard() {
   }
 
 
-  const CheckboxIcon: CheckboxProps['icon'] = ({ indeterminate, className }) =>
+  const CheckboxIcon: CheckboxProps['icon'] = ({ indeterminate, className}) =>
   indeterminate ? <Check className={className} /> : <Check className={className} />;
 
   const collectionLinks = collections.map((collection) => (
@@ -376,10 +374,11 @@ export default function Dashboard() {
 	onClick={()=> handleURL(collection.id)}
       key={collection.label}
       className={classes.collectionLink}
+      style={{color: collection.label === 'Advocacy' ? "#E8590C" : collection.label === "Protection" ? "#A61E4D" : collection.label === "Education" ? "green" : collection.label === "Health" ? "blue" : "cyan"}}
     >
       <Group direction='row' position='apart'>
       {collection.label}
-        <Checkbox checked={collection.value} onChange={() => {handleCSOs(collection.id)}} onClick={() => {handleCSOs(collection.id)}} icon={CheckboxIcon} />
+        <Checkbox color = {collection.label === 'Advocacy' ? "orange" : collection.label === "Protection" ? "pink" : collection.label === "Education" ? "green" : collection.label === "Health" ? "blue" : "cyan"} checked={collection.value} onChange={() => {handleCSOs(collection.id)}} onClick={() => {handleCSOs(collection.id)}} icon={CheckboxIcon } />
       </Group>
     </a>
   ));
